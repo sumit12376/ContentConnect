@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-zinc-900 text-white p-10">
+    <nav class="bg-gray-800 shadow-lg rounded-lg mb-8 p-4 flex justify-between items-center">
+        <div class="text-lg font-bold text-blue-400">
+            <a href="/home" class="hover:text-blue-300 transition duration-300">Home</a>
+            <a href="/allposts" class="ml-4 hover:text-blue-300 transition duration-300">All Posts</a>
+            <a href="/profile" class="ml-4 hover:text-blue-300 transition duration-300">Profile</a>
+            <% if (!user) { %>
+                <a href="/login" class="ml-4 hover:text-blue-300 transition duration-300">Login</a>
+                <a href="/create" class="ml-4 hover:text-blue-300 transition duration-300">Create Account</a>
+            <% } %>
+        </div>
+        <div>
+            <% if (user) { %>
+                <button 
+                    type="button" 
+                    class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300"
+                    onclick="window.location.href='/logout'">
+                    Logout
+                </button>
+            <% } %>
+        </div>
+    </nav>
+    
+    <div class="text-center my-8">
+        <% if (posts.length === 0) { %>
+            <h1 class="text-2xl font-bold ">No posts</h1>
+        <% } else { %>
+            <h1 class="text-2xl font-bold ">All posts</h1>
+        <% } %>
+    </div>
+    
+    
+    <div class="post-container space-y-4">
+        <% posts.forEach(post => { %>
+            <div class="bg-zinc-800 p-6 rounded-lg shadow-lg ">
+             
+                <a class="text-blue-400 font-bold text-xl mb-2" href="/post/<%= post.user._id %>">
+                    <%= post.user.username %>
+                </a>
+                <p class="text-gray-300 mb-4"><%= post.content %></p>
+                <p class="text-gray-300 mb-4"><%= post.date%></p>
+                <div class="flex items-center justify-between mt-4">
+                    <p class="text-gray-300 font-semibold">
+                        <span class="text-blue-400"><%= post.likes.length %></span> Like<%= post.likes.length !== 1 ? 's' : '' %>
+                    </p>
+                    <a class="text-blue-400 hover:text-blue-600 transition duration-300" href="/like/<%= post._id %>">
+                        <%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %>
+                    </a>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</body>
+
+</html>

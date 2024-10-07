@@ -10,12 +10,12 @@
 
 <body class="bg-gray-900 text-white">
     <div class="w-full min-h-screen p-10">
-        <!-- Navigation Bar -->
         <nav class="bg-gray-800 shadow-lg rounded-lg mb-8 p-4 flex justify-between items-center">
             <div class="text-lg font-bold text-blue-400">
                 <a href="/home" class="hover:text-blue-300 transition duration-300">Home</a>
-                <a href="/allposts" class="ml-4 hover:text-blue-300 transition duration-300">All Posts</a>
                 <a href="/profile" class="ml-4 hover:text-blue-300 transition duration-300">Profile</a>
+                <a href="/allposts" class="ml-4 hover:text-blue-300 transition duration-300">All Posts</a>
+                
                 <% if (!users) { %>
                     <a href="/login" class="ml-4 hover:text-blue-300 transition duration-300">Login</a>
                     <a href="/create" class="ml-4 hover:text-blue-300 transition duration-300">Create Account</a>
@@ -32,12 +32,16 @@
                 <% } %>
             </div>
         </nav>
-        
 
+        <div class="flex items-center mb-10">
+            <div class="w-20 h-20 rounded-full overflow-hidden mr-4">
+                <a href="/profile/upload">
+                <img class="w-full h-full object-cover" src="/images/uploads/<%=user.profilepic%>" alt="Profile Picture">
+            </a>
+            </div>
+            <h3 class="text-4xl font-bold text-blue-400">Hello, <%= user.name %>!</h3>
+        </div>
 
-        <h3 class="text-4xl font-bold text-blue-400 mb-4 p-2">
-            Hello, <%= user.name %>!
-        </h3>
         <h5 class="text-xl mb-6">You can create a new post</h5>
         
         <form action="/post" method="post">
@@ -60,19 +64,19 @@
 
         <div class="mt-10">
             <h3 class="text-zinc-400 text-2xl font-semibold mb-4">Your Posts</h3>
-            <div class="postcontainer mt-5">
+            <div class="post-container mt-5 space-y-4">
                 <% user.posts.forEach((post) => { %>
-                    <div class="bg-gray-800 p-4 rounded-lg shadow-md mb-4">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-md">
                         <h4 class="text-blue-400 font-bold">@<%=user.username %></h4> 
                         <p class="text-gray-300 mb-2">
                             <%= post.content %> 
                         </p>
                         <div class="flex items-center gap-4 p-2 bg-gray-700 rounded-lg mt-4">
                             <p class="text-gray-300 font-semibold">
-                                <span class="text-blue-400"><%= post.likes.length %></span> Like<%= post.likes.length !== 1 ? 's' : '' %>
+                                <span class="text-blue-400"><%= post.likes.length %></span> likes
                             </p>
                             <a class="text-blue-400 hover:text-blue-300 transition duration-300" href="/remove/<%= post._id %>">Remove</a>
-                            <span class="text-white text-sm ml-24"><%= post.date %></span>
+                            <span class="text-white text-sm ml-auto"><%= post.date %></span>
                         </div>
                     </div>
                 <% }) %>

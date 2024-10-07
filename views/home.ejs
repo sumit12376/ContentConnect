@@ -4,85 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+          
+        }
+    </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Home - My Blog</title>
 </head>
 
 <body class="bg-gray-900 text-white">
-    <div class="w-full min-h-screen p-10">
-  
-        <nav class="bg-gray-800 shadow-lg rounded-lg mb-8 p-4 flex justify-between items-center">
-            <div class="text-lg font-bold text-blue-400">
+    <div class="w-full min-h-screen">
+
+        <nav class="bg-gray-800 shadow-lg rounded-lg mb-0 p-0 flex justify-between items-center">
+            <div class="text-lg mb-10 flex ml-4  font-bold  text-blue-400 mt-5">
                 <a href="/home" class="hover:text-blue-300 transition duration-300">Home</a>
-                
-                
                 <% if (!currentUser) { %>
                     <a href="/login" class="ml-4 hover:text-blue-300 transition duration-300">Login</a>
                     <a href="/create" class="ml-4 hover:text-blue-300 transition duration-300">Create Account</a>
                 <% } else { %>
-                    <a href="/allposts" class="ml-4 hover:text-blue-300 transition duration-300">All Posts</a>
                     <a href="/profile" class="ml-4 hover:text-blue-300 transition duration-300">Profile</a>
+                    <a href="/allposts" class="ml-4 hover:text-blue-300 transition duration-300">All Posts</a>
+                    
                 <% } %>
             </div>
             <div>
                 <% if (currentUser) { %>
-                    <button 
-                        type="button" 
-                        class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300"
+                    <button type="button"
+                        class="bg-red-600 text-white font-bold py-2 px-4 mr-4 rounded-lg hover:bg-red-700 transition duration-300"
                         onclick="window.location.href='/logout'">
                         Logout
                     </button>
                 <% } %>
             </div>
         </nav>
-        
-        <% if (currentUser) { %>
-        <h1 class="text-5xl font-bold text-blue-400 mb-6">Welcome to My Blog!</h1>
-        <% } %>
-        <p class="text-xl mb-6">Discover, share, and create amazing posts.</p>
-        
-        <div class="flex justify-center mt-4">
-            <a href="/createpost" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition duration-300">
-                Create New Post
-            </a>
-        </div>
-        <div class="mt-10">
-            <h2 class="text-3xl font-bold text-blue-400 mb-4">Featured Posts</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-blue-400">Post Title 1</h3>
-                    <p class="text-gray-300 mt-2">A brief description of what this post is about.</p>
-                    <p class="mt-4 inline-block text-gray-400">Read more coming soon...</p>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-blue-400">Post Title 2</h3>
-                    <p class="text-gray-300 mt-2">A brief description of what this post is about.</p>
-                    <p class="mt-4 inline-block text-gray-400">Read more coming soon...</p>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-blue-400">Post Title 3</h3>
-                    <p class="text-gray-300 mt-2">A brief description of what this post is about.</p>
-                    <p class="mt-4 inline-block text-gray-400">Read more coming soon...</p>
-                </div>
-            </div>
-        </div>
-        <div class="mt-12">
-            <h2 class="text-3xl font-bold text-blue-400 mb-4">Additional Features</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-blue-400">Feature 1</h3>
-                    <p class="text-gray-300 mt-2">Short description of this feature.</p>
-                    <p class="mt-4 inline-block text-gray-400">Coming soon...</p>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-blue-400">Feature 2</h3>
-                    <p class="text-gray-300 mt-2">Short description of this feature.</p>
-                    <p class="mt-4 inline-block text-gray-400">Coming soon...</p>
-                </div>
-                <div class="bg-gray-800 p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105">
-                    <h3 class="text-xl font-semibold text-blue-400">Feature 3</h3>
-                    <p class="text-gray-300 mt-2">Short description of this feature.</p>
-                    <p class="mt-4 inline-block text-gray-400">Coming soon...</p>
+
+        <div class="relative bg-cover bg-center h-screen w-full" style="background-image: url('./images/uploads/image.png');">
+            <div class="flex items-center justify-center h-full bg-black bg-opacity-60">
+                <div class="text-center text-white p-8">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to Our Website</h1>
+                    <p class="text-lg mb-8">Discover amazing content and resources.</p>
+                    
                 </div>
             </div>
         </div>

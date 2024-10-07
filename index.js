@@ -7,11 +7,15 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const userModel = require('./model/user');
 const postModel = require('./model/post');
-
+const path=require('path')
+const upload=require("./config/multerconfig");
+const { log } = require('console');
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -36,16 +40,36 @@ mongoose.connect(process.env.MONGODB_URI, {
         
         res.render('home', { currentUser }); 
     });
+    app.get('/createAccount', (req, res) => {
+        
+        res.render('index'); 
+    });
     
 app.get('/create', (req, res) => {
     res.render('index');
 });
+app.get('/profile/upload', (req, res) => {
+    res.render('profileupload');
+});
+// Image Upload Handler
+app.post('/upload', isLogin, upload.single("image"), async (req, res) => {
+    try {
+        let user = await userModel.findOne({ email: req.currentuser.email });
+        user.profilepic = req.file.filename; 
+        await user.save();
+        res.redirect('/profile');
+    } catch (error) {
+        console.error("Error uploading image:", error);
+        res.status(500).send("Server error");
+    }
+});
+
 app.get('/post/:user', isLogin, async (req, res) => {
     const username = req.params.user; 
 
     try {
         let user = await userModel.findOne({ _id: username }).populate('posts');
-        console.log("post hai ye", user);
+       
 
         if (!user) {
             return res.status(404).send("User not found");
@@ -78,7 +102,7 @@ app.post('/register', async (req, res) => {
             password: hash
         });
 
-        let token = jwt.sign({ email: email, userid: newUser._id }, "sumit");
+        let token = jwt.sign({ email: email, userid: newUser._id }, process.env.JWT_SECRET);
         res.cookie("token", token);
         res.redirect('/login')
     } catch (error) {
@@ -155,7 +179,6 @@ app.get('/remove/:id', isLogin, async (req, res) => {
 app.get('/allposts', isLogin, async (req, res) => {
     try {
         const posts = await postModel.find().populate("user");
-        console.log("user populate hai ye",posts)
         const currentUser = req.currentuser;
         res.render('allpost', { posts, user: currentUser }); 
         
@@ -209,7 +232,8 @@ app.post('/post', isLogin, async (req, res) => {
     res.redirect('/profile');
 });
 
-const PORT = process.env.PORT || 3000; // Use the PORT from the .env file or fallback to 3000
+
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -6,6 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Posts</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    
+        .fullscreen-overlay {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            backdrop-filter: blur(20px); 
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .fullscreen-overlay img {
+            max-width: 50%;
+            max-height: 50%;
+            border-radius: 100%;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-900 text-white p-10">
@@ -17,8 +39,9 @@
                 <a href="/login" class="ml-4 hover:text-blue-300 transition duration-300">Login</a>
                 <a href="/create" class="ml-4 hover:text-blue-300 transition duration-300">Create Account</a>
             <% } else { %>
-                <a href="/allposts" class="ml-4 hover:text-blue-300 transition duration-300">All Posts</a>
                 <a href="/profile" class="ml-4 hover:text-blue-300 transition duration-300">Profile</a>
+                <a href="/allposts" class="ml-4 hover:text-blue-300 transition duration-300">All Posts</a>
+               
             <% } %>
         </div>
         <div>
@@ -32,35 +55,53 @@
             <% } %>
         </div>
     </nav>
+    <div class="flex items-center mb-4">
+        <div class="w-24 h-24 rounded-full border-4 border-blue-400 shadow-lg transform transition duration-300 hover:scale-105 cursor-pointer" onclick="openFullScreen()">
+            <img src="/images/uploads/<%=user.profilepic %>" alt="Profile Picture"
+                class="w-full h-full rounded-full object-cover">
+        </div>
+        <h1 class="text-3xl font-bold ml-6">
+            <%= user.username %>'s Posts
+        </h1>
+    </div>
 
-    <h1 class="text-3xl font-bold mb-4">
-        <%= user.username %>'s Posts
-    </h1>
+    <div class="fullscreen-overlay" id="overlay" onclick="closeFullScreen()">
+        <img src="/images/uploads/<%=user.profilepic %>" alt="Profile Picture" id="fullscreenImage">
+    </div>
 
     <div class="post-container space-y-4">
-        <% if (!user.posts || user.posts.length === 0) { %> <!-- Check for user.posts existence -->
+        <% if (!user.posts || user.posts.length === 0) { %>
             <p>No posts available.</p>
         <% } else { %>
-            <% user.posts.forEach(post => { %> <!-- Iterate through user.posts directly -->
+            <% user.posts.forEach(post => { %>
                 <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
                     <p class="text-gray-300 mb-4">
-                        <%= post.content %> <!-- Access content directly from the post -->
+                        <%= post.content %>
                     </p>
-                    <p class="text-gray-400 text-sm"> <!-- Optional: Display post date or other info -->
+                    <p class="text-gray-400 text-sm">
                         Date: <%= post.date %>
                     </p>
                     <div class="flex items-center justify-between mt-4">
                         <p class="text-gray-300 font-semibold">
-                            <span class="text-blue-400"><%= post.likes.length %></span> Like<%= post.likes.length !== 1 ? 's' : '' %> <!-- Display number of likes -->
+                            <span class="text-blue-400"><%= post.likes.length %></span> Like<%= post.likes.length !== 1 ? 's' : '' %>
                         </p>
-                        <a class="text-blue-400 hover:text-blue-600 transition duration-300" href="/likeposts/<%= post._id %>">
-                            like
-                        </a>
                     </div>
                 </div>
             <% }) %>
         <% } %>
     </div>
+
+    <script>
+        function openFullScreen() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'flex'; 
+        }
+
+        function closeFullScreen() {
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'none'; 
+        }
+    </script>
 </body>
 
 </html>

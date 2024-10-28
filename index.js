@@ -17,10 +17,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(process.env.MONGODB_URI)
 .then(() => {
     console.log('Connected to MongoDB');
 })
@@ -51,7 +48,7 @@ app.get('/create', (req, res) => {
 app.get('/profile/upload', (req, res) => {
     res.render('profileupload');
 });
-// Image Upload Handler
+
 app.post('/upload', isLogin, upload.single("image"), async (req, res) => {
     try {
         let user = await userModel.findOne({ email: req.currentuser.email });
@@ -167,7 +164,7 @@ app.get('/remove/:id', isLogin, async (req, res) => {
             return res.status(403).send("You are not authorized to delete this post");
         }
 
-        // Remove the post
+      
         await postModel.deleteOne({ _id: req.params.id });
 
         res.redirect('/profile');

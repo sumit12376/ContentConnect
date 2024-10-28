@@ -7,7 +7,7 @@ const postSchema = new mongoose.Schema({
     },
     date: {
         type: String,
-        default: () => new Date().toISOString().slice(0, 10) // Returns the date as YYYY-MM-DD
+        default: () => new Date().toISOString().slice(0, 10) 
     },
     
     content: String,

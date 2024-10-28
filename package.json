@@ -4,12 +4,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["backend", "express", "ejs", "mongoose"],
+  "author": "Sumit Vikram Singh",
   "license": "ISC",
-  "description": "",
+  "description": "A mini backend project using Express and EJS.",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
